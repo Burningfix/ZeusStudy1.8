@@ -26,7 +26,7 @@ public class TestActivity1 extends ZeusBaseActivity {
         Context context = getApplicationContext();
         ApplicationInfo applicationInfo = getApplicationInfo();
 
-        Button btnGotoActivityA = (Button)findViewById(R.id.btnGotoActivityA);
+        Button btnGotoActivityA = (Button) findViewById(R.id.btnGotoActivityA);
         btnGotoActivityA.setText(Plugin1Application.userName);
         btnGotoActivityA.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -40,8 +40,8 @@ public class TestActivity1 extends ZeusBaseActivity {
 
                     startActivity(intent);
 
-                } catch (Exception e) {
-                    e.printStackTrace();
+                } catch (Throwable e) {
+                    Log.e("sanbo", Log.getStackTraceString(e));
                 }
             }
         });

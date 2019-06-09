@@ -9,9 +9,13 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 
+
 /**
- * @author weishu
- * @date 16/3/29
+ * @Copyright ©  sanbo Inc. All rights reserved.
+ * @Description TODO
+ * @Version 1.0
+ * @Create 16/3/29
+ * @Author weishu
  */
 public class Utils {
 

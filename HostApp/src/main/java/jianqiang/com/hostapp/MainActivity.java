@@ -2,16 +2,13 @@ package jianqiang.com.hostapp;
 
 import android.app.Activity;
 import android.content.ComponentName;
-import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 
 import com.example.jianqiang.mypluginlibrary.PluginManager;
-
-import java.io.File;
-
-import dalvik.system.DexClassLoader;
+import com.hostapp.R;
 
 public class MainActivity extends Activity {
 
@@ -28,8 +25,10 @@ public class MainActivity extends Activity {
             intent.setClass(this, getClassLoader().loadClass(serviceName));
             startService(intent);
         } catch (Exception e) {
-            e.printStackTrace();
+            Log.i("sanbo", Log.getStackTraceString(e));
         }
+
+
     }
 
     public void startActivityInPlugin1(View view) {
@@ -41,7 +40,7 @@ public class MainActivity extends Activity {
             startActivity(intent);
 
         } catch (Exception e) {
-            e.printStackTrace();
+            Log.i("sanbo", Log.getStackTraceString(e));
         }
     }
 }

@@ -9,7 +9,7 @@ Task modifyAaptPathTask = task('modifyAaptPath') << {
         BuildToolInfo buildToolInfo = variant.androidBuilder.getTargetInfo().getBuildTools()
         Method addMethod = BuildToolInfo.class.getDeclaredMethod("add", BuildToolInfo.PathId.class, File.class)
         addMethod.setAccessible(true)
-        addMethod.invoke(buildToolInfo, BuildToolInfo.PathId.AAPT, new File(rootDir, "aapt_mac"))
+        addMethod.invoke(buildToolInfo, BuildToolInfo.PathId.AAPT, new File(rootDir, "aapt.exe"))
         println "[LOG] new aapt path = " + buildToolInfo.getPath(BuildToolInfo.PathId.AAPT)
     }
 }
@@ -32,10 +32,6 @@ android {
         }
     }
 
-    lintOptions {
-        abortOnError false
-    }
-
 
     preBuild.doFirst {
         modifyAaptPathTask.execute()
@@ -44,6 +40,36 @@ android {
     aaptOptions {
         aaptOptions.additionalParameters '--PLUG-resoure-id', '0x71'
     }
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_7
+        targetCompatibility JavaVersion.VERSION_1_7
+    }
+    dexOptions {
+        dexInProcess true
+        jumboMode true
+        preDexLibraries true
+        maxProcessCount 8
+        javaMaxHeapSize "4g"
+    }
+    aaptOptions {
+        cruncherEnabled = false
+        useNewCruncher = false
+    }
+    lintOptions {
+        checkReleaseBuilds false
+        abortOnError false
+        warningsAsErrors false
+        disable "UnusedResources", 'MissingTranslation', 'ExtraTranslation', 'RestrictedApi'
+        textOutput "stdout"
+        textReport false
+        ignoreWarnings true
+    }
+}
+// 忽略文档编译错误. 设置编码
+tasks.withType(Javadoc) {
+    options.addStringOption('Xdoclint:none', '-quiet')
+    options.addStringOption('encoding', 'UTF-8')
+    options.addStringOption('charSet', 'UTF-8')
 }
 
 dependencies {

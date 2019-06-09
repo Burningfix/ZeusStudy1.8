@@ -1,6 +1,7 @@
 package com.example.jianqiang.mypluginlibrary;
 
 import android.text.TextUtils;
+import android.util.Log;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -51,6 +52,7 @@ class ZeusClassLoader extends PathClassLoader {
             for (DexClassLoader classLoader : mClassLoaderList) {
                 if (classLoader == null) continue;
                 try {
+                    Log.i("sanbo", "ZeusClassLoader.loadClass className: " + className + ", resolve: " + resolve);
                     //这里只查找插件它自己的apk，不需要查parent，避免多次无用查询，提高性能
                     clazz = classLoader.loadClass(className);
                     if (clazz != null) {

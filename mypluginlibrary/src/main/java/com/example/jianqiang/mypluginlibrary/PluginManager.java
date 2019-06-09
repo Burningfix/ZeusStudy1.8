@@ -2,7 +2,6 @@ package com.example.jianqiang.mypluginlibrary;
 
 import android.app.Application;
 import android.content.Context;
-import android.content.pm.ApplicationInfo;
 import android.content.res.AssetManager;
 import android.content.res.Resources;
 
@@ -13,6 +12,13 @@ import java.util.List;
 
 import dalvik.system.DexClassLoader;
 
+/**
+ * @Copyright ©  sanbo Inc. All rights reserved.
+ * @Description 基于双亲委派模式，替换application中的apk加载器和对应的信息
+ * @Version 1.0
+ * @Create 2019/06/09 17:00
+ * @Author Administrator
+ */
 public class PluginManager {
     public final static List<PluginItem> plugins = new ArrayList<PluginItem>();
 
@@ -24,12 +30,14 @@ public class PluginManager {
 
     //ContextImpl中的LoadedAPK对象mPackageInfo
     private static Object mPackageInfo = null;
+    //正在使用的ClassLoader
+    public static volatile ClassLoader mNowClassLoader = null;
+    //系统原始的ClassLoader
+    public static volatile ClassLoader mBaseClassLoader = null;
 
-    public static volatile ClassLoader mNowClassLoader = null;          //系统原始的ClassLoader
-    public static volatile ClassLoader mBaseClassLoader = null;         //系统原始的ClassLoader
-
+    //初始化一些成员变量和加载已安装的插件
     public static void init(Application application) {
-        //初始化一些成员变量和加载已安装的插件
+        //反射获取ContextImpl中的mPackageInfo,其实就是Application中的mLoadedApk
         mPackageInfo = RefInvoke.getFieldObject(application.getBaseContext(), "mPackageInfo");
         mBaseContext = application.getBaseContext();
         mNowResources = mBaseContext.getResources();
@@ -42,8 +50,8 @@ public class PluginManager {
             String[] paths = assetManager.list("");
 
             ArrayList<String> pluginPaths = new ArrayList<String>();
-            for(String path : paths) {
-                if(path.endsWith(".apk")) {
+            for (String path : paths) {
+                if (path.endsWith(".apk")) {
                     String apkName = path;
 
                     Utils.extractAssets(mBaseContext, apkName);
@@ -65,7 +73,7 @@ public class PluginManager {
 
         File dexOutputDir = mBaseContext.getDir("dex", Context.MODE_PRIVATE);
         final String dexOutputPath = dexOutputDir.getAbsolutePath();
-        for(PluginItem plugin: plugins) {
+        for (PluginItem plugin : plugins) {
             DexClassLoader dexClassLoader = new DexClassLoader(plugin.pluginPath,
                     dexOutputPath, null, mBaseClassLoader);
             classLoader.addPluginClassLoader(dexClassLoader);
@@ -77,6 +85,12 @@ public class PluginManager {
 
     }
 
+    /**
+     * 加载插件APK中的相关信息
+     *
+     * @param apkName
+     * @return
+     */
     private static PluginItem generatePluginItem(String apkName) {
         File file = mBaseContext.getFileStreamPath(apkName);
         PluginItem item = new PluginItem();
@@ -87,6 +101,11 @@ public class PluginManager {
         return item;
     }
 
+    /**
+     * 加载资源文件
+     *
+     * @param pluginPaths
+     */
     private static void reloadInstalledPluginResources(ArrayList<String> pluginPaths) {
         try {
             AssetManager assetManager = AssetManager.class.newInstance();
@@ -94,7 +113,7 @@ public class PluginManager {
 
             addAssetPath.invoke(assetManager, mBaseContext.getPackageResourcePath());
 
-            for(String pluginPath: pluginPaths) {
+            for (String pluginPath : pluginPaths) {
                 addAssetPath.invoke(assetManager, pluginPath);
             }
 

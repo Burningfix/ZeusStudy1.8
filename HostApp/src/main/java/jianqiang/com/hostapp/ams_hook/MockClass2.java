@@ -1,19 +1,23 @@
 package jianqiang.com.hostapp.ams_hook;
 
 import android.content.Intent;
+import android.content.pm.ActivityInfo;
 import android.os.Handler;
 import android.os.Message;
+import android.util.Log;
 
 import com.example.jianqiang.mypluginlibrary.RefInvoke;
 
+import java.lang.reflect.Proxy;
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * @author weishu
  * @date 16/1/7
  */
-/* package */ class MockClass2 implements Handler.Callback {
-
+/* package */class MockClass2 implements Handler.Callback {
+    private String TAG = "sanbo.mock2";
     Handler mBase;
 
     public MockClass2(Handler base) {
@@ -26,7 +30,7 @@ import java.util.ArrayList;
         switch (msg.what) {
             // ActivityThread里面 "LAUNCH_ACTIVITY" 这个字段的值是100
             // 本来使用反射的方式获取最好, 这里为了简便直接使用硬编码
-            case 100:
+            case 100://for API 28以下
                 handleLaunchActivity(msg);
                 break;
             case 112:
@@ -42,13 +46,13 @@ import java.util.ArrayList;
         Object obj = msg.obj;
         ArrayList intents = (ArrayList) RefInvoke.getFieldObject(obj, "intents");
 
-        for(Object object : intents) {
-            Intent raw = (Intent)object;
+        for (Object object : intents) {
+            Intent raw = (Intent) object;
             Intent target = raw.getParcelableExtra(AMSHookHelper.EXTRA_TARGET_INTENT);
-            if(target != null) {
+            if (target != null) {
                 raw.setComponent(target.getComponent());
 
-                if(target.getExtras() != null) {
+                if (target.getExtras() != null) {
                     raw.putExtras(target.getExtras());
                 }
 
@@ -65,7 +69,7 @@ import java.util.ArrayList;
         // 把替身恢复成真身
         Intent raw = (Intent) RefInvoke.getFieldObject(obj, "intent");
         Intent target = raw.getParcelableExtra(AMSHookHelper.EXTRA_TARGET_INTENT);
-        if(target != null) {
+        if (target != null) {
             RefInvoke.setFieldObject(obj, "intent", target);
         }
     }

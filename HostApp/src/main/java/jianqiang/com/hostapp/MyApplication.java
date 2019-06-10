@@ -25,7 +25,7 @@ public class MyApplication extends Application {
 
         try {
             AMSHookHelper.hookAMN();
-            AMSHookHelper.hookActivityThread();
+            AMSHookHelper.attachContext();
         } catch (Throwable e) {
             e.printStackTrace();
         }
@@ -40,13 +40,13 @@ public class MyApplication extends Application {
     public void onCreate() {
         super.onCreate();
 
-        for (PluginItem pluginItem : PluginManager.plugins) {
+        for(PluginItem pluginItem: PluginManager.plugins) {
 
             try {
                 Class clazz = PluginManager.mNowClassLoader.loadClass(pluginItem.applicationName);
-                Application application = (Application) clazz.newInstance();
+                Application application = (Application)clazz.newInstance();
 
-                if (application == null)
+                if(application == null)
                     continue;
 
                 application.onCreate();

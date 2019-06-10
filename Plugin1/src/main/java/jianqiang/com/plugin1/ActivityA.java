@@ -9,7 +9,7 @@ import android.widget.TextView;
 import com.example.jianqiang.mypluginlibrary.ZeusBaseActivity;
 
 public class ActivityA extends ZeusBaseActivity {
-    private final static String TAG = "sanbo.ActivityA";
+    private final static String TAG = "ActivityA";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

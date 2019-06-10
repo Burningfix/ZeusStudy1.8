@@ -7,13 +7,6 @@ import android.content.pm.PackageManager;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
 
-/**
- * @Copyright ©  sanbo Inc. All rights reserved.
- * @Description DL框架(that框架)的apk解析
- * @Version 1.0
- * @Create 2019/06/09 17:02
- * @Author Administrator
- */
 public class DLUtils {
 
     public static PackageInfo getPackageInfo(Context context, String apkFilepath) {

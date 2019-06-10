@@ -44,12 +44,14 @@ class MockClass1 implements InvocationHandler {
 
             Intent newIntent = new Intent();
 
+
+            /**
+             *  解析包名。有部分缺陷。
+             */
             // 替身Activity的包名, 也就是我们自己的包名
-
             ComponentName componentName = null;
-
             String rawClass = raw.getComponent().getClassName();
-            if(MyApplication.pluginActivies.containsKey(rawClass)) {
+            if (MyApplication.pluginActivies.containsKey(rawClass)) {
                 String activity = MyApplication.pluginActivies.get(rawClass);
                 int pos = activity.lastIndexOf(".");
                 String pluginPackage = activity.substring(0, pos);

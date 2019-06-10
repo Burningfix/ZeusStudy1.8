@@ -1,10 +1,14 @@
 package com.example.jianqiang.mypluginlibrary;
 
+import android.content.BroadcastReceiver;
 import android.content.Context;
+import android.content.IntentFilter;
+import android.content.pm.ActivityInfo;
 import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageManager;
 
 import java.io.File;
+import java.util.List;
 
 public final class ApplicationHelper {
 

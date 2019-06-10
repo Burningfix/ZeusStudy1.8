@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">ZenusHook</string>
+    <string name="app_name">HostApp</string>
 
     <string name="hello_world">Hello world!</string>
     <string name="title_activity_static_proxy">StaticProxyActivity</string>

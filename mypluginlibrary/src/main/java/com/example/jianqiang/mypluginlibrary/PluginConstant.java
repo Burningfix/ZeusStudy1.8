@@ -26,11 +26,8 @@ public class PluginConstant {
      * 如果插件路径是在SD卡上，则插件后缀应为jar
      */
     public static final String PLUGIN_JAR_SUFF = ".jar";
-    //插件的安装路径信息，每次安装后的apk的文件名都是随机的，为了实现动态实时加载
-    public static final String PLUGIN_INSTALLED_INFO_PATH = "zeusplugin_installinfo";
-    //如果插件id是以zeusplugin开头，则认为是插件
-    public static final String EXP_PLUG_PREFIX = "zeusplugin";
-    //如果插件id是以zeushotfix开头，则认为是热修复补丁
-    public static final String EXP_PLUG_HOT_FIX_PREFIX = "zeushotfix";
+    public static final String PLUGIN_INSTALLED_INFO_PATH = "zeusplugin_installinfo";       //插件的安装路径信息，每次安装后的apk的文件名都是随机的，为了实现动态实时加载
+    public static final String EXP_PLUG_PREFIX = "zeusplugin";                              //如果插件id是以zeusplugin开头，则认为是插件
+    public static final String EXP_PLUG_HOT_FIX_PREFIX = "zeushotfix";                      //如果插件id是以zeushotfix开头，则认为是热修复补丁
 
 }
